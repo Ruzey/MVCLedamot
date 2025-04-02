@@ -1,0 +1,74 @@
+﻿@model List<Person>
+
+<h1>Lista över politiker</h1>
+
+<h3>Sök politiker efter förnamn eller parti.</h3>
+<form method="get" action="/Person" class="d-flex mb-3">
+    <select name="searchName" class="form-select form-select-sm me-2" style="width: auto;">
+        <option value="">-- Välj ett förnamn --</option>
+        @foreach (var name in ViewBag.UniqueNames)
+        {
+            <option value="@name" selected="@(Context.Request.Query["searchName"] == name ? "selected" : null)">
+                @name
+            </option>
+        }
+    </select>
+
+    <select name="searchParty" class="form-select form-select-sm me-2" style="width: auto;">
+        <option value="">-- Välj ett parti --</option>
+        @foreach (var party in ViewBag.UniqueParties)
+        {
+            <option value="@party" selected="@(Context.Request.Query["searchParty"] == party ? "selected" : null)">
+                @party
+            </option>
+        }
+    </select>
+
+    <input type="number" name="birthYear" class="form-control form-control-sm" style="width: 100px;" min="1890" max="2025"
+           oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4)" placeholder="År"
+           value="@Context.Request.Query["birthYear"]" />
+
+    <select name="birthYearFilter" class="form-select form-select-sm" style="width: auto;">
+        <option value="exact" selected="@(Context.Request.Query["birthYearFilter"] == "exact" ? "selected" : null)">Exakt</option>
+        <option value="before" selected="@(Context.Request.Query["birthYearFilter"] == "before" ? "selected" : null)">Före</option>
+        <option value="after" selected="@(Context.Request.Query["birthYearFilter"] == "after" ? "selected" : null)">Efter</option>
+    </select>
+
+    <button type="submit" class="btn btn-primary btn-sm">Sök</button>
+    <a href="/Person" class="btn btn-secondary ms-2 btn-sm">Visa alla</a>
+</form>
+
+
+
+<form method="post" action="/Person/RandomPerson">
+    <button type="submit" class="btn btn-danger mb-2" >Vilken politiker borde avsättas härnäst?</button>
+</form>
+
+@if (ViewBag.RandomPerson != null)
+{
+    <div class="alert alert-warning mt-3">
+        <h3>Nästa att avsättas: @ViewBag.RandomPerson.tilltalsnamn @ViewBag.RandomPerson.efternamn</h3>
+    </div>
+}
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Bild</th>
+            <th>Namn</th>
+            <th>Födelseår</th>
+            <th>Parti</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var person in Model)
+        {
+            <tr>
+                <td><img src="@person.bild_url_192" alt="@person.tilltalsnamn @person.efternamn" /></td>
+                <td>@person.tilltalsnamn @person.efternamn</td>
+                <td>@person.fodd_ar</td>
+                <td>@person.parti</td>
+            </tr>
+        }
+    </tbody>
+</table>
