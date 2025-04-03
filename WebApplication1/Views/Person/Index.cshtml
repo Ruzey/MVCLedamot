@@ -58,6 +58,7 @@
             <th>Namn</th>
             <th>Födelseår</th>
             <th>Parti</th>
+			<th>Uppgift</th>
         </tr>
     </thead>
     <tbody>
@@ -68,6 +69,14 @@
                 <td>@person.tilltalsnamn @person.efternamn</td>
                 <td>@person.fodd_ar</td>
                 <td>@person.parti</td>
+                <td>
+                    @{
+                        var uppdrag = person.personuppgift?.uppgift?
+                        .FirstOrDefault(u => u.kod == "Uppdrag inom riksdag och regering");
+                        var uppdragText = uppdrag != null ? string.Join(", ", uppdrag.uppgift) : "Inga uppdrag";
+                    }
+                    @uppdragText
+                </td>
             </tr>
         }
     </tbody>
