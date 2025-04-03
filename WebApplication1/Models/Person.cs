@@ -16,7 +16,7 @@
         public string bild_url_192 { get; set; }
         public string bild_url_max { get; set; }
         public string personuppdrag_url { get; set; }
-        //public Personuppgift personuppgift { get; set; }
+        public Personuppgift personuppgift { get; set; }
 
     }
 }

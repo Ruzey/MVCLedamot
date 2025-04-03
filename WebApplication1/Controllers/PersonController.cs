@@ -11,13 +11,6 @@ namespace WebApplication1.Controllers
         {
             _personService = personService;
         }
-        /*
-        public string GetUppdrag(Person person)
-        {
-            var uppdrag = person.personuppgift.uppgift.FirstOrDefault(u => u.kod == "Uppdrag inom riksdag och regering");
-
-            return uppdrag;
-        }*/
         public async Task<IActionResult> Index(string searchName, string searchParty, int? birthYear, string birthYearFilter)
         {
             var personData = await _personService.GetPersonsAsync();
